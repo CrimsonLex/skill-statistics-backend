@@ -1,30 +1,44 @@
 package com.backend.skillstatisticsbackend.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
 @Entity
 @Table(name = "Topic")
-@NoArgsConstructor
-@AllArgsConstructor
+
 @Getter
 @Setter
 public class Topic{
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int topicId;
 
     private String topicName;
 
+
+    @OneToMany(
+            mappedBy = "topic",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true,
+            fetch= FetchType.LAZY
+    )
+    @JsonIgnore
     private List<Resource> topicResources;
+
+    public Topic(String topicName) {
+        this.topicName = topicName;
+        topicResources = new ArrayList<>();
+    }
 
     public boolean addResource(Optional<Resource> resource){
 

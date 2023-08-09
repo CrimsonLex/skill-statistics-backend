@@ -14,9 +14,10 @@ import java.util.Optional;
 
 @Entity
 @Table(name = "Topic")
-
+@NoArgsConstructor
 @Getter
 @Setter
+@NamedQuery(name = "Topic.findAll", query = "SELECT t FROM Topic t")
 public class Topic{
 
     @Id
@@ -32,21 +33,33 @@ public class Topic{
             orphanRemoval = true,
             fetch= FetchType.LAZY
     )
-    @JsonIgnore
-    private List<Resource> topicResources;
+    //@JsonIgnore
 
+    private List<Resource> resources;
+
+    @Column(name = "user_id", nullable = false)
+    private int userId;
+
+    public Topic(String topicName, int userId) {
+        this.topicName = topicName;
+        this.userId = userId;
+        resources = new ArrayList<>();
+    }
     public Topic(String topicName) {
         this.topicName = topicName;
-        topicResources = new ArrayList<>();
+        resources = new ArrayList<>();
     }
 
-    public boolean addResource(Optional<Resource> resource){
+    public Resource addResource(Resource resource){
 
-        boolean addedSuccesfully = false;
+       Resource addedSuccesfully = null;
 
-        if(resource.isPresent()){
-            addedSuccesfully= topicResources.add(resource.get());
+        if(resource == null){
+            return addedSuccesfully;
         }
+
+        getResources().add(resource);
+        addedSuccesfully= resource;
 
         // Falta la validación y el agregarlo.
 
@@ -55,8 +68,8 @@ public class Topic{
     }
     public int numberOfResources(){
         int numOfResources = 0;
-        if(!topicResources.isEmpty()){
-            return topicResources.size();
+        if(!resources.isEmpty()){
+            return resources.size();
         }
         //Falta hacer o llamar el metodo para mostrar cuantos resources hay
         return numOfResources;

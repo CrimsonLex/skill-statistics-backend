@@ -26,6 +26,7 @@ public class Resource {
 
     @ManyToOne
     @JoinColumn(name = "topic_Id")
+    @JsonIgnore
     private Topic topic;
 
     public Resource(String resourceName, String resourceUrl,Topic topic) {

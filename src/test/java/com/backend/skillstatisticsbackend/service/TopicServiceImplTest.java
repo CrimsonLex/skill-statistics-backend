@@ -33,7 +33,7 @@ public class TopicServiceImplTest {
     @Test
     public void testGetTopTenTopics() {
         List<Topic> mockTopics = createMockTopics(); // Create some mock topics
-        //when(topicRepository.topTenTopics()).thenReturn(mockTopics);
+        //w hen(topicRepository.topTenTopics()).thenReturn(mockTopics);
 
         List<TopicDTO> result = topicService.getTenTopics();
 

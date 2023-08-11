@@ -7,6 +7,7 @@ import com.backend.skillstatisticsbackend.repository.TopicRepository;
 import com.backend.skillstatisticsbackend.service.ResourceService;
 import com.backend.skillstatisticsbackend.service.TopicService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -71,6 +72,18 @@ public class TopicServiceImpl implements TopicService {
         int topicId = (int) result[0];
         String topicName = (String) result[1];
         BigInteger resourceCount = (BigInteger)result[3];
-        return new TopicDTO(topicId, topicName, resourceCount);
+        //return new TopicDTO(topicId, topicName, resourceCount);
+        return new TopicDTO(topicId, topicName, 2);
+    }
+
+    @Override
+    @Transactional
+    public List<TopicDTO> getTenTopicsDTO(){
+
+        int limit = 10;
+        PageRequest pageRequest = PageRequest.of(0, limit);
+        List<TopicDTO> topics = topicRepository.topTenTopicsDTO(pageRequest);
+
+        return topics;
     }
 }

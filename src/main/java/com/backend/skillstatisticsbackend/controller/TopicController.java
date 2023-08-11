@@ -36,6 +36,11 @@ public class TopicController {
         return topicService.getTenTopics();
     }
 
+    @GetMapping("/getTenTopicsDTO")
+    public List<TopicDTO> getTenTopicsDTO(){
+        return topicService.getTenTopicsDTO();
+    }
+
     public String addTopic(@RequestBody Topic topic){
         topicService.saveTopic(topic);
         return "New topic added succesfully";

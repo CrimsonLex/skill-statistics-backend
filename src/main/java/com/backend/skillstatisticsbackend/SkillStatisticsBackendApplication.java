@@ -47,7 +47,7 @@ public class SkillStatisticsBackendApplication {
 		topicService.saveTopic(topicTest1);
 		topicService.saveTopic(topicTest2);
 
-		List<TopicDTO> topTenTopics = topicService.getTenTopics();
+		List<TopicDTO> topTenTopics = topicService.getTenTopicsDTO();
 
 		topTenTopics.forEach(e->{
 			System.out.println("name: "+e.getTopicName()+", resourcesNumber: " + e.getResourcesNumber() );

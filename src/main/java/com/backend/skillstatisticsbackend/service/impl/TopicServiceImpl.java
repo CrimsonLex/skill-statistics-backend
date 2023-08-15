@@ -6,6 +6,9 @@ import com.backend.skillstatisticsbackend.repository.ResourceRepository;
 import com.backend.skillstatisticsbackend.repository.TopicRepository;
 import com.backend.skillstatisticsbackend.service.ResourceService;
 import com.backend.skillstatisticsbackend.service.TopicService;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
@@ -17,7 +20,12 @@ import java.util.List;
 import java.util.Objects;
 
 @Service
+@Getter
+@Setter
+@NoArgsConstructor
+
 public class TopicServiceImpl implements TopicService {
+
 
 
     TopicRepository topicRepository;
@@ -33,11 +41,11 @@ public class TopicServiceImpl implements TopicService {
 
     @Override
     public Topic saveTopic(Topic topic){
-        return topicRepository.save(topic);
+        return getTopicRepository().save(topic);
     }
     @Override
     public List<Topic> getAllTopics() {
-        return topicRepository.findAll();
+        return getTopicRepository().findAll();
     }
 
     @Override
@@ -86,4 +94,6 @@ public class TopicServiceImpl implements TopicService {
 
         return topics;
     }
+
+
 }

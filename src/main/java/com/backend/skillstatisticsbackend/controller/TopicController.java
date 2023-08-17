@@ -19,12 +19,9 @@ import java.util.List;
 @RequestMapping("/topics")
 public class TopicController {
 
-
-    private TopicRepository topicRepository;
     @Autowired
     private TopicServiceImpl topicService;
-    @Autowired
-    private ResourceRepository resourceRepository;
+
 
     @GetMapping("/getAll")
     public List<Topic> getAllTopics(){

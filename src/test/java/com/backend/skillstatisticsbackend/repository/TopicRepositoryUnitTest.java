@@ -6,7 +6,7 @@ import com.backend.skillstatisticsbackend.model.Resource;
 import com.backend.skillstatisticsbackend.model.Topic;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.data.elasticsearch.DataElasticsearchTest;
+
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.data.domain.PageRequest;
 
@@ -54,12 +54,16 @@ public class TopicRepositoryUnitTest {
         int fixedLimit = 10;
         PageRequest pageRequest = PageRequest.of(0, fixedLimit);
         List<Topic> topicsToTest=topicRepository.getTopTenTopics();
+        assertAll(
 
-        assertEquals(2,topicsToTest.size());
+            () -> assertEquals(2,topicsToTest.size()),
 
-        assertEquals("H2",topicsToTest.get(0).getTopicName());
+            () -> assertEquals("H2",topicsToTest.get(0).getTopicName()),
 
-        assertEquals(2,topicsToTest.get(0).getCountResources());
+            () -> assertEquals(2,topicsToTest.get(0).getCountResources())
+
+        );
+
 
 
 
@@ -67,7 +71,7 @@ public class TopicRepositoryUnitTest {
 
 
     @Test
-    void topTenTopicsDTO_without_topics(){
+    void topTenTopics_without_topics(){
 
 
         List<Topic> topicsToTest=topicRepository.getTopTenTopics();
@@ -77,7 +81,7 @@ public class TopicRepositoryUnitTest {
     }
 
     @Test
-    void topTenTopicsDTO_with_more_than_10_topics(){
+    void topTenTopics_with_more_than_10_topics(){
 
 
         setUp1();
@@ -85,10 +89,10 @@ public class TopicRepositoryUnitTest {
 
         List<Topic> topicsToTest=topicRepository.getTopTenTopics();
 
-
-        assertEquals(10, topicsToTest.size());
-        assertEquals(10,topicsToTest.get(0).getCountResources());
-
+        assertAll(
+             () -> assertEquals(10, topicsToTest.size()),
+             () -> assertEquals(10,topicsToTest.get(0).getCountResources())
+        );
     }
 
 

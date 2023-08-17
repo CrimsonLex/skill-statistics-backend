@@ -80,12 +80,14 @@ public class TopicServiceImplTest {
         List<TopicDTO> topicsToTest= topicService.getTenTopicsDTO();
 
 
+        assertAll(
+                () -> assertEquals(2,topicsToTest.size()),
 
-        assertEquals(2,topicsToTest.size());
+                () -> assertEquals("H2",topicsToTest.get(0).getTopicName()),
 
-        assertEquals("H2",topicsToTest.get(0).getTopicName());
+                () -> assertEquals(2,topicsToTest.get(0).getResourcesNumber())
+        );
 
-        assertEquals(2,topicsToTest.get(0).getResourcesNumber());
        verify(topicRepository).getTopTenTopics();
     }
 
@@ -108,8 +110,14 @@ public class TopicServiceImplTest {
         List<TopicDTO> topicsToTest= topicService.getTenTopicsDTO();
 
 
-        assertEquals(10, topicsToTest.size());
 
+        assertAll(
+                () -> assertEquals(10,topicsToTest.size()),
+
+                () -> assertEquals("Topic 10",topicsToTest.get(0).getTopicName()),
+
+                () -> assertEquals(10,topicsToTest.get(0).getResourcesNumber())
+        );
 
 
 

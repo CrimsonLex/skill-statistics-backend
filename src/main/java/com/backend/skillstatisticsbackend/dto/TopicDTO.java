@@ -16,15 +16,14 @@ import java.util.List;
 public class TopicDTO {
    int topicId;
    String topicName;
-   long resourcesNumber;
+   int resourcesNumber;
 
 
-   public TopicDTO(int topicId, String topicName, long resourcesNumber){
+   public TopicDTO(int topicId, String topicName, int resourcesNumber){
       this.topicId=topicId;
       this.topicName=topicName;
-      //System.out.println(resources);
       this.resourcesNumber=resourcesNumber;
-      //resourcesNumber= resources.size();
+
 
    }
 

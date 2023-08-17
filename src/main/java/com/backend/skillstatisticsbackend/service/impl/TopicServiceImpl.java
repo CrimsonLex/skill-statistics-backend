@@ -28,15 +28,13 @@ public class TopicServiceImpl implements TopicService {
 
 
 
+    @Autowired
     TopicRepository topicRepository;
-
+    @Autowired
     ResourceRepository resourceRepository;
 
-    @Autowired
-    public TopicServiceImpl(TopicRepository tR, ResourceRepository rS){
-        topicRepository= tR;
-        resourceRepository=rS;
-    }
+
+
 
 
     @Override
@@ -50,50 +48,33 @@ public class TopicServiceImpl implements TopicService {
 
     @Override
     @Transactional
-    public List<TopicDTO> getTenTopics(){
-        List<Object[]> topics = topicRepository.topTenTopics();
-        List<TopicDTO> topicDTOList = new ArrayList<>();
-        for (Object[] result : topics) {
-            TopicDTO topicDTO= mapTopicToDTO(result);
-            topicDTOList.add(topicDTO);
+    public List<TopicDTO> getTenTopicsDTO(){
+//
+        List<TopicDTO> topicDTOs = new ArrayList<>();
 
+        List<Topic> topics = topicRepository.getTopTenTopics();
+
+        for (Topic topic : topics) {
+            TopicDTO topicDTO = mapTopicToDTO(topic);
+
+            topicDTOs.add(topicDTO);
         }
 
-        System.out.println(topics.get(0).toString());
 
 
-//        for (Topic topic : topics) {
-//
-//            System.out.println("Aqui estoy dentro del service");
-//            System.out.println(topic.getTopicName());
-////            topic.getResources().forEach(e->{
-////                System.out.println(e.getResourceName());
-////            });
-//            TopicDTO topicDTO = mapTopicToDTO(topic);
-//            topicDTOList.add(topicDTO);
-//        }
 
-        return topicDTOList;
+        return topicDTOs;
     }
-    public TopicDTO mapTopicToDTO(Object[] result) {
+    public TopicDTO mapTopicToDTO(Topic topic) {
 
-        int topicId = (int) result[0];
-        String topicName = (String) result[1];
-        BigInteger resourceCount = (BigInteger)result[3];
-        //return new TopicDTO(topicId, topicName, resourceCount);
-        return new TopicDTO(topicId, topicName, 2);
+        int topicId = topic.getTopicId();
+        String topicName = topic.getTopicName();
+        int resourceCount = topic.getCountResources();
+
+        return new TopicDTO(topicId, topicName, resourceCount);
     }
 
-    @Override
-    @Transactional
-    public List<TopicDTO> getTenTopicsDTO(){
 
-        int limit = 10;
-        PageRequest pageRequest = PageRequest.of(0, limit);
-        List<TopicDTO> topics = topicRepository.topTenTopicsDTO(pageRequest);
-
-        return topics;
-    }
 
 
 }

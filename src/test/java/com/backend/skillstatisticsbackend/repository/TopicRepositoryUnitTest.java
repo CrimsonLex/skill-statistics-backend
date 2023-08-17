@@ -49,17 +49,17 @@ public class TopicRepositoryUnitTest {
     }
 
     @Test
-    void topTenTopicsDTO_with_less_than_ten_Topics(){
+    void topTenTopic_with_less_than_ten_Topics(){
         setUp1();
         int fixedLimit = 10;
         PageRequest pageRequest = PageRequest.of(0, fixedLimit);
-        List<TopicDTO> topicsToTest=topicRepository.topTenTopicsDTO(pageRequest);
+        List<Topic> topicsToTest=topicRepository.getTopTenTopics();
 
         assertEquals(2,topicsToTest.size());
 
         assertEquals("H2",topicsToTest.get(0).getTopicName());
 
-        assertEquals(2,topicsToTest.get(0).getResourcesNumber());
+        assertEquals(2,topicsToTest.get(0).getCountResources());
 
 
 
@@ -69,9 +69,8 @@ public class TopicRepositoryUnitTest {
     @Test
     void topTenTopicsDTO_without_topics(){
 
-        int fixedLimit = 10;
-        PageRequest pageRequest = PageRequest.of(0, fixedLimit);
-        List<TopicDTO> topicsToTest=topicRepository.topTenTopicsDTO(pageRequest);
+
+        List<Topic> topicsToTest=topicRepository.getTopTenTopics();
 
         assertTrue(topicsToTest.isEmpty());
 
@@ -84,13 +83,11 @@ public class TopicRepositoryUnitTest {
         setUp1();
         setUp2();
 
-        int fixedLimit = 10;
-        PageRequest pageRequest = PageRequest.of(0, fixedLimit);
-        List<TopicDTO> topicsToTest=topicRepository.topTenTopicsDTO(pageRequest);
+        List<Topic> topicsToTest=topicRepository.getTopTenTopics();
 
 
         assertEquals(10, topicsToTest.size());
-        assertEquals(10,topicsToTest.get(0).getResourcesNumber());
+        assertEquals(10,topicsToTest.get(0).getCountResources());
 
     }
 

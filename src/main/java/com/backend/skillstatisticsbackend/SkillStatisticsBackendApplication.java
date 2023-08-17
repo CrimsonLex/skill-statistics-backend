@@ -27,7 +27,7 @@ public class SkillStatisticsBackendApplication {
 		Topic topicTest2 = new Topic("Spring",2);
 
 
-		System.out.println("Soy un mico");
+		System.out.println("Empiezo a guardar resources");
 		Resource resourceTest1 = new Resource("H2 Guide", "baeldung.com", topicTest1);
 		Resource resourceTest2 = new Resource("H2 Profiles", "baeldung.com", topicTest1);
 		topicTest1.addResource(resourceTest1);
@@ -47,8 +47,9 @@ public class SkillStatisticsBackendApplication {
 		topicService.saveTopic(topicTest1);
 		topicService.saveTopic(topicTest2);
 
-		List<TopicDTO> topTenTopics = topicService.getTenTopicsDTO();
+		//List<TopicDTO> topTenTopics = topicService.getTenTopicsDTO();
 
+		List<TopicDTO> topTenTopics = topicService.getTenTopicsDTO();
 		topTenTopics.forEach(e->{
 			System.out.println("name: "+e.getTopicName()+", resourcesNumber: " + e.getResourcesNumber() );
 		});

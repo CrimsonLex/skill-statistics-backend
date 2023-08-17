@@ -15,21 +15,10 @@ import java.util.Objects;
 @Repository
 public interface TopicRepository extends JpaRepository<Topic, Integer> {
 
-
-  @Query(value ="SELECT t.topic_id as topicId, t.topic_name as topicName, t.user_id as userid, COUNT(r.topic_id) as resources " +
+  @Query(value ="SELECT t.topic_id as topicId, t.topic_name as topicName, t.user_id as userid, COUNT(r.topic_id) as count_resources " +
           "FROM TOPIC t LEFT JOIN RESOURCE r ON t.topic_id = r.topic_id " +
-          "GROUP BY t.topic_id, t.topic_name ORDER BY resources DESC", nativeQuery = true)
+          "GROUP BY t.topic_id, t.topic_name ORDER BY count_resources DESC LIMIT 10", nativeQuery = true)
 
-    //@Query(value ="SELECT t.topic_id as id, t.topic_name as name, COUNT(r.topic_id) as resources,t.user_id as user_id FROM TOPIC t LEFT JOIN RESOURCE r ON t.topic_id = r.topic_id GROUP BY t.topic_id, t.topic_name ORDER BY resources DESC;",nativeQuery = true)
-    List<Object[]> topTenTopics();
-
-
-  @Query(value= "SELECT NEW com.backend.skillstatisticsbackend.dto.TopicDTO(t.topicId, t.topicName, COUNT(r)) " +
-          "FROM Topic t LEFT JOIN t.resources r " +
-          "GROUP BY t.topicId, t.topicName " +
-          "ORDER BY COUNT(r) DESC ")
-
-    //@Query(value ="SELECT t.topic_id as id, t.topic_name as name, COUNT(r.topic_id) as resources,t.user_id as user_id FROM TOPIC t LEFT JOIN RESOURCE r ON t.topic_id = r.topic_id GROUP BY t.topic_id, t.topic_name ORDER BY resources DESC;",nativeQuery = true)
-  List<TopicDTO> topTenTopicsDTO(PageRequest pageable);
+  List<Topic> getTopTenTopics();
 
 }

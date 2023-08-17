@@ -9,6 +9,6 @@ public interface TopicService {
     List<Topic> getAllTopics();
     Topic saveTopic(Topic topic);
 
-    List<TopicDTO> getTenTopics();
     List<TopicDTO> getTenTopicsDTO();
+
 }

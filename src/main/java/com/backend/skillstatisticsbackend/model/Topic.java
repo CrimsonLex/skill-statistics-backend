@@ -37,6 +37,9 @@ public class Topic{
 
     private List<Resource> resources;
 
+
+    @Column(name="count_resources")
+    private int countResources;
     @Column(name = "user_id", nullable = false)
     private int userId;
 
@@ -44,6 +47,7 @@ public class Topic{
         this.topicName = topicName;
         this.userId = userId;
         resources = new ArrayList<>();
+        countResources=0;
     }
     public Topic(String topicName) {
         this.topicName = topicName;
@@ -60,6 +64,7 @@ public class Topic{
 
         getResources().add(resource);
         addedSuccesfully= resource;
+        this.countResources =numberOfResources();
 
         // Falta la validación y el agregarlo.
 
@@ -69,9 +74,9 @@ public class Topic{
     public int numberOfResources(){
         int numOfResources = 0;
         if(!resources.isEmpty()){
-            return resources.size();
+            return this.resources.size();
         }
-        //Falta hacer o llamar el metodo para mostrar cuantos resources hay
+
         return numOfResources;
     }
 

@@ -31,20 +31,16 @@ public class TopicController {
         return topicService.getAllTopics();
     }
 
-    @GetMapping("/getTenTopics")
-    public List<TopicDTO> getTenTopics(){
-        return topicService.getTenTopics();
-    }
-
-    @GetMapping("/getTenTopicsDTO")
-    public List<TopicDTO> getTenTopicsDTO(){
-        return topicService.getTenTopicsDTO();
-    }
 
     public String addTopic(@RequestBody Topic topic){
         topicService.saveTopic(topic);
         return "New topic added succesfully";
 
     }
+    @GetMapping("/getTenTopicsDTO")
+    public List<TopicDTO> getTenTopicsDTO(){
+        return topicService.getTenTopicsDTO();
+    }
+
 
 }

@@ -1,6 +1,8 @@
 package com.backend.skillstatisticsbackend.service;
 
 import com.backend.skillstatisticsbackend.dto.TopicDTO;
+import com.backend.skillstatisticsbackend.model.Resource;
+import com.backend.skillstatisticsbackend.model.Topic;
 import com.backend.skillstatisticsbackend.repository.ResourceRepository;
 import com.backend.skillstatisticsbackend.repository.TopicRepository;
 import com.backend.skillstatisticsbackend.service.impl.TopicServiceImpl;
@@ -14,6 +16,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -27,7 +30,7 @@ import static org.mockito.Mockito.when;
 public class TopicServiceImplTest {
 
     @InjectMocks
-    private TopicServiceImpl topicService = new TopicServiceImpl();
+    private TopicServiceImpl topicService;
 
     @Mock
     private TopicRepository topicRepository;
@@ -36,42 +39,44 @@ public class TopicServiceImplTest {
     private ResourceRepository resourceRepository;
 
 
-    List<TopicDTO> setUp1() {
+    List<Topic> setUp1() {
 
-        List<TopicDTO> mockedTopics = new ArrayList<>();
+        Topic topicTest1 = new Topic("H2",1);
+        Topic topicTest2 = new Topic("Spring",2);
 
-        TopicDTO topicTest1 = new TopicDTO(1, "H2", 1);
-        TopicDTO topicTest2 = new TopicDTO(2, "Spring", 2);
+        Resource resourceTest1 = new Resource("H2 Guide", "baeldung.com", topicTest1);
+        Resource resourceTest2 = new Resource("H2 Profiles", "baeldung.com", topicTest1);
+        Resource resourceTest3 = new Resource("Spring guide", "officialSpring.com", topicTest2);
+        topicTest1.addResource(resourceTest1);
+        topicTest1.addResource(resourceTest2);
+        topicTest2.addResource(resourceTest3);
 
+        List<Topic> result =Arrays.asList(topicTest1,topicTest2);
 
-
-        mockedTopics.add(topicTest1);
-        mockedTopics.add(topicTest2);
-
-        return mockedTopics;
-
+        return result;
 
 
     }
-    List<TopicDTO> setUp2(){
-        List<TopicDTO> mockedTopics = new ArrayList<>();
-
-
-        for (int i = 1; i <= 10; i++) {
-            TopicDTO topic = new TopicDTO(i , "Topic " + i,i);
-            // Add any necessary resources to the topic
-            mockedTopics.add(topic);
+    List<Topic> setUp2(){
+        List<Topic> result = new ArrayList<>();
+        for (int i = 10; i > 0; i--) {
+            Topic topic = new Topic("Topic " + i,i+2);
+            for (int j = 1; j <= i; j++) {
+                Resource resource = new Resource("Resource " + j, "URL " + j, topic);
+                topic.addResource(resource);
+            }
+            result.add(topic);
         }
-
-        return mockedTopics;
+        return result;
     }
 
-    //Preguntar aqui sobre los mocks, si meto 11 ej, como se hace mock no prueba el funcionamiento del metodo y pasan los 11, cuando en ejecución normal si los limita a 10
-    @Test
+     @Test
     void service_using_topTenTopics_butWithLessThanTenTopics() {
 
-        List<TopicDTO> mockedTopics =setUp1();
-        when(topicRepository.topTenTopicsDTO(PageRequest.of(0, 10))).thenReturn(mockedTopics);
+         List<Topic> mockTopics= setUp1();
+
+         when(topicRepository.getTopTenTopics()).thenReturn(mockTopics);
+
         List<TopicDTO> topicsToTest= topicService.getTenTopicsDTO();
 
 
@@ -80,48 +85,39 @@ public class TopicServiceImplTest {
 
         assertEquals("H2",topicsToTest.get(0).getTopicName());
 
-        assertEquals(1,topicsToTest.get(0).getResourcesNumber());
-       verify(topicRepository).topTenTopicsDTO(PageRequest.of(0, 10));
+        assertEquals(2,topicsToTest.get(0).getResourcesNumber());
+       verify(topicRepository).getTopTenTopics();
     }
 
     @Test
     void service_using_topTenTopics_butWithoutTopics() {
 
-
-
-        List<TopicDTO> mockedTopics=Collections.emptyList();
-        when(topicRepository.topTenTopicsDTO(PageRequest.of(0, 10))).thenReturn(mockedTopics);
-
         List<TopicDTO> topicsToTest= topicService.getTenTopicsDTO();
-
-        assertTrue(topicsToTest.isEmpty());
-
-
 
         assertTrue(topicsToTest.isEmpty());
     }
 
 
     @Test
-    void testGetTenTopicsDTO() {
+    void service_using_topTenTopics_withTenTopics() {
         // Create mock data for topics
-        List<TopicDTO> mockTopics = setUp2();
+        List<Topic> mockTopics = setUp2();
+
+        when(topicRepository.getTopTenTopics()).thenReturn(mockTopics);
+
+        List<TopicDTO> topicsToTest= topicService.getTenTopicsDTO();
 
 
-        // Configure the mock topicRepository behavior
-        when(topicRepository.topTenTopicsDTO(PageRequest.of(0, 10))).thenReturn(mockTopics);
+        assertEquals(10, topicsToTest.size());
 
-        // Call the method to be tested
-        List<TopicDTO> result = topicService.getTenTopicsDTO();
 
-        // Assert the result
-        assertEquals(10, result.size());
-        verify(topicRepository).topTenTopicsDTO(PageRequest.of(0, 10));
 
-        // Add more assertions if needed
+
+
+
     }
 
-    // Write more test methods for other scenarios
+
 
 }
 

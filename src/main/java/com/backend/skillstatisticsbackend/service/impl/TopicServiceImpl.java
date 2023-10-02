@@ -4,37 +4,27 @@ import com.backend.skillstatisticsbackend.dto.TopicDTO;
 import com.backend.skillstatisticsbackend.model.Topic;
 import com.backend.skillstatisticsbackend.repository.ResourceRepository;
 import com.backend.skillstatisticsbackend.repository.TopicRepository;
-import com.backend.skillstatisticsbackend.service.ResourceService;
 import com.backend.skillstatisticsbackend.service.TopicService;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 @Service
 @Getter
 @Setter
 @NoArgsConstructor
-
 public class TopicServiceImpl implements TopicService {
-
-
 
     @Autowired
     TopicRepository topicRepository;
     @Autowired
     ResourceRepository resourceRepository;
-
-
-
 
 
     @Override
@@ -49,19 +39,14 @@ public class TopicServiceImpl implements TopicService {
     @Override
     @Transactional
     public List<TopicDTO> getTenTopicsDTO(){
-//
-        List<TopicDTO> topicDTOs = new ArrayList<>();
 
+        List<TopicDTO> topicDTOs = new ArrayList<>();
         List<Topic> topics = topicRepository.getTopTenTopics();
 
         for (Topic topic : topics) {
             TopicDTO topicDTO = mapTopicToDTO(topic);
-
             topicDTOs.add(topicDTO);
         }
-
-
-
 
         return topicDTOs;
     }
@@ -73,8 +58,5 @@ public class TopicServiceImpl implements TopicService {
 
         return new TopicDTO(topicId, topicName, resourceCount);
     }
-
-
-
 
 }

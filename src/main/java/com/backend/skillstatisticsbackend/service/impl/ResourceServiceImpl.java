@@ -18,7 +18,6 @@ public class ResourceServiceImpl implements ResourceService {
         super();
         this.resourceRepository = resourceRepository;
     }
-
     @Override
     public List<Resource> getAllResources() {
         return resourceRepository.findAll();

@@ -1,10 +1,8 @@
 package com.backend.skillstatisticsbackend.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.AllArgsConstructor;
+
 import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 import javax.persistence.*;
 
@@ -35,6 +33,5 @@ public class Resource {
         this.topic = topic;
 
     }
-
 
 }

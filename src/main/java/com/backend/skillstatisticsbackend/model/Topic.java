@@ -1,16 +1,12 @@
 package com.backend.skillstatisticsbackend.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
 
 @Entity
 @Table(name = "Topic")
@@ -26,17 +22,14 @@ public class Topic{
 
     private String topicName;
 
-
     @OneToMany(
             mappedBy = "topic",
             cascade = CascadeType.ALL,
             orphanRemoval = true,
             fetch= FetchType.LAZY
     )
-    //@JsonIgnore
 
     private List<Resource> resources;
-
 
     @Column(name="count_resources")
     private int countResources;
@@ -65,9 +58,7 @@ public class Topic{
         getResources().add(resource);
         addedSuccesfully= resource;
         this.countResources =numberOfResources();
-
         // Falta la validación y el agregarlo.
-
         return addedSuccesfully;
 
     }
@@ -76,12 +67,7 @@ public class Topic{
         if(!resources.isEmpty()){
             return this.resources.size();
         }
-
         return numOfResources;
     }
-
-
-
-
 
 }

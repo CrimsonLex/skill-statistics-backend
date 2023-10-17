@@ -1,55 +1,73 @@
 package com.backend.skillstatisticsbackend.model;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Entity
 @Table(name = "Topic")
 @NoArgsConstructor
-@AllArgsConstructor
 @Getter
 @Setter
+@NamedQuery(name = "Topic.findAll", query = "SELECT t FROM Topic t")
 public class Topic{
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int topicId;
 
     private String topicName;
 
-    private List<Resource> topicResources;
+    @OneToMany(
+            mappedBy = "topic",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true,
+            fetch= FetchType.LAZY
+    )
 
-    public boolean addResource(Optional<Resource> resource){
+    private List<Resource> resources;
 
-        boolean addedSuccesfully = false;
+    @Column(name="count_resources")
+    private int countResources;
+    @Column(name = "user_id", nullable = false)
+    private int userId;
 
-        if(resource.isPresent()){
-            addedSuccesfully= topicResources.add(resource.get());
+    public Topic(String topicName, int userId) {
+        this.topicName = topicName;
+        this.userId = userId;
+        resources = new ArrayList<>();
+        countResources=0;
+    }
+    public Topic(String topicName) {
+        this.topicName = topicName;
+        resources = new ArrayList<>();
+    }
+
+    public Resource addResource(Resource resource){
+
+       Resource addedSuccesfully = null;
+
+        if(resource == null){
+            return addedSuccesfully;
         }
 
+        getResources().add(resource);
+        addedSuccesfully= resource;
+        this.countResources =numberOfResources();
         // Falta la validación y el agregarlo.
-
         return addedSuccesfully;
 
     }
     public int numberOfResources(){
         int numOfResources = 0;
-        if(!topicResources.isEmpty()){
-            return topicResources.size();
+        if(!resources.isEmpty()){
+            return this.resources.size();
         }
-        //Falta hacer o llamar el metodo para mostrar cuantos resources hay
         return numOfResources;
     }
-
-
-
-
 
 }

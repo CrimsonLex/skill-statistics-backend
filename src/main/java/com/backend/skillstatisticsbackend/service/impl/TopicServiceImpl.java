@@ -9,6 +9,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.annotation.ReadOnlyProperty;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -37,7 +38,7 @@ public class TopicServiceImpl implements TopicService {
     }
 
     @Override
-    @Transactional
+    @Transactional(readOnly = true)
     public List<TopicDTO> getTenTopicsDTO(){
 
         List<TopicDTO> topicDTOs = new ArrayList<>();

@@ -10,7 +10,6 @@ public class ResourceController {
     private ResourceService resourceService;
 
     public ResourceController(ResourceService resourceService) {
-        super();
         this.resourceService = resourceService;
     }
     @GetMapping("/resources")

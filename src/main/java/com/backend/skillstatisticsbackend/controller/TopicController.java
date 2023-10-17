@@ -23,6 +23,7 @@ public class TopicController {
         return topicService.getAllTopics();
     }
 
+    @PostMapping("/addTopic")
     public String addTopic(@RequestBody Topic topic){
         topicService.saveTopic(topic);
         return "New topic added succesfully";

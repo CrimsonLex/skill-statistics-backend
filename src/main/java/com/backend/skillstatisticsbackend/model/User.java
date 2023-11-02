@@ -9,7 +9,8 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class AuthToken {
-    private String data;
-    private User user;
+public class User {
+    private String id;
+    private Long iat;
+    private Long exp;
 }

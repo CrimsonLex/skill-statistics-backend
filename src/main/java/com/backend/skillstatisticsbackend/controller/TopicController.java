@@ -32,4 +32,8 @@ public class TopicController {
     public List<TopicDTO> getTenTopicsDTO(){
         return topicService.getTenTopicsDTO();
     }
+
+    public List<Topic> getTopicsByUser(@RequestBody String userId){
+        return topicService.getTopicsByUser(userId);
+    }
 }

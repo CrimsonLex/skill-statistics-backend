@@ -19,8 +19,8 @@ public class SkillStatisticsBackendApplication {
 
 		TopicServiceImpl topicService = configurableApplicationContext.getBean(TopicServiceImpl.class);
 
-		Topic topicTest1 = new Topic("H2",1);
-		Topic topicTest2 = new Topic("Spring",2);
+		Topic topicTest1 = new Topic("H2","1");
+		Topic topicTest2 = new Topic("Spring","2");
 
 		System.out.println("Empiezo a guardar resources");
 		Resource resourceTest1 = new Resource("H2 Guide", "baeldung.com", topicTest1);
@@ -39,6 +39,7 @@ public class SkillStatisticsBackendApplication {
 		topTenTopics.forEach(e->{
 			System.out.println("name: "+e.getTopicName()+", resourcesNumber: " + e.getResourcesNumber() );
 		});
+
 
 	}
 

@@ -6,6 +6,7 @@ import com.backend.skillstatisticsbackend.model.Topic;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.NamedNativeQuery;
@@ -20,5 +21,10 @@ public interface TopicRepository extends JpaRepository<Topic, Integer> {
           "GROUP BY t.topic_id, t.topic_name ORDER BY count_resources DESC LIMIT 10", nativeQuery = true)
 
   List<Topic> getTopTenTopics();
+
+  @Query(value = "SELECT t FROM Topic t WHERE t.userId = :userId", nativeQuery = true)
+  List<Topic> getTopicsByUser(@Param("userId") String userId);
+
+
 
 }

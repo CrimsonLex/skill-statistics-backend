@@ -34,9 +34,9 @@ public class Topic{
     @Column(name="count_resources")
     private int countResources;
     @Column(name = "user_id", nullable = false)
-    private int userId;
+    private String userId;
 
-    public Topic(String topicName, int userId) {
+    public Topic(String topicName, String userId) {
         this.topicName = topicName;
         this.userId = userId;
         resources = new ArrayList<>();

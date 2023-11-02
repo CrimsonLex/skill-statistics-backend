@@ -41,8 +41,8 @@ public class TopicServiceImplTest {
 
     List<Topic> setUp1() {
 
-        Topic topicTest1 = new Topic("H2",1);
-        Topic topicTest2 = new Topic("Spring",2);
+        Topic topicTest1 = new Topic("H2","1");
+        Topic topicTest2 = new Topic("Spring","2");
 
         Resource resourceTest1 = new Resource("H2 Guide", "baeldung.com", topicTest1);
         Resource resourceTest2 = new Resource("H2 Profiles", "baeldung.com", topicTest1);
@@ -60,7 +60,7 @@ public class TopicServiceImplTest {
     List<Topic> setUp2(){
         List<Topic> result = new ArrayList<>();
         for (int i = 10; i > 0; i--) {
-            Topic topic = new Topic("Topic " + i,i+2);
+            Topic topic = new Topic("Topic " + i,Integer.toString(i+2));
             for (int j = 1; j <= i; j++) {
                 Resource resource = new Resource("Resource " + j, "URL " + j, topic);
                 topic.addResource(resource);

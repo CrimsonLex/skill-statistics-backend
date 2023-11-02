@@ -60,4 +60,9 @@ public class TopicServiceImpl implements TopicService {
         return new TopicDTO(topicId, topicName, resourceCount);
     }
 
+    public List<Topic> getTopicsByUser(String userId){
+        List<Topic> topicsByUser= topicRepository.getTopicsByUser(userId);
+        return topicsByUser;
+     }
+
 }

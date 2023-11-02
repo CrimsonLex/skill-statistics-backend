@@ -5,6 +5,7 @@ import com.backend.skillstatisticsbackend.service.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpHeaders;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -22,7 +23,7 @@ public class JwtFilter extends OncePerRequestFilter {
     private AuthService authService;
 
     @Autowired
-    @Qualifier("HandlerExceptionResolver")
+    @Qualifier("handlerExceptionResolver")
     private HandlerExceptionResolver resolver;
 
 
@@ -37,13 +38,17 @@ public class JwtFilter extends OncePerRequestFilter {
 
             String token = authorizationHeader.trim();
             AuthToken validated = authService.validateToken(token);
-            if
+            if(validated == null){
+                filterChain.doFilter(request,response);
+                return;
+            }
 
-
-
-
+            JwtAuthentication authentication = new JwtAuthentication(validated.getUser().getId());
+            authentication.setAuthenticated(true);
+            SecurityContextHolder.getContext().setAuthentication(authentication);
+            filterChain.doFilter(request,response);
         }catch (Exception e){
-
+            resolver.resolveException(request,response,null,e);
         }
     }
 }
